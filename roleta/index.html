@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roleta de Apostas</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      width: 300px;
+      text-align: center;
+    }
+    h1 {
+      color: #333;
+    }
+    input {
+      width: calc(100% - 22px);
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 5px;
+      color: #fff;
+      font-weight: bold;
+    }
+    .red {
+      background-color: red;
+    }
+    .black {
+      background-color: black;
+    }
+    .reset {
+      background-color: #6c757d;
+      margin-top: 10px;
+    }
+    .reset:hover {
+      background-color: #5a6268;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Roleta de Apostas</h1>
+    <input type="number" id="num1" placeholder="Digite o primeiro número">
+    <input type="number" id="num2" placeholder="Digite o segundo número">
+    <button onclick="calcular()">Calcular</button>
+    <div id="result" class="result" style="display: none;"></div>
+    <button class="reset" onclick="resetar()">Resetar</button>
+  </div>
+
+  <script>
+    function calcular() {
+      const num1 = parseFloat(document.getElementById('num1').value);
+      const num2 = parseFloat(document.getElementById('num2').value);
+      const resultDiv = document.getElementById('result');
+
+      if (isNaN(num1) || isNaN(num2)) {
+        alert('Por favor, insira números válidos!');
+        return;
+      }
+
+      // Subtração
+      const subtracao = num1 - num2;
+      const subCor = subtracao % 2 === 0 ? 'black' : 'red';
+
+      // Divisão
+      let divisao = num1 / num2;
+      const divisaoArredondada = parseFloat(divisao.toFixed(2));
+      const decimalPart = Math.floor((divisao * 100) % 100);
+
+      let divCor;
+      if (decimalPart > 50) {
+        divCor = (Math.ceil(divisao) % 2 === 0) ? 'black' : 'red';
+      } else {
+        divCor = (Math.floor(divisao) % 2 === 0) ? 'black' : 'red';
+      }
+
+      // Exibir resultados
+      resultDiv.style.display = 'block';
+      resultDiv.innerHTML = `Subtração: ${subtracao} (${subCor.toUpperCase()})<br>
+                             Divisão: ${divisaoArredondada} (${divCor.toUpperCase()})`;
+      resultDiv.className = `result ${subCor} ${divCor}`;
+    }
+
+    function resetar() {
+      document.getElementById('num1').value = '';
+      document.getElementById('num2').value = '';
+      const resultDiv = document.getElementById('result');
+      resultDiv.style.display = 'none';
+      resultDiv.innerHTML = '';
+    }
+  </script>
+</body>
+</html>
